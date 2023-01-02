@@ -1,79 +1,108 @@
-# :package_description
+# Laravel Pdfable
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/pxlrbt/laravel-pdfable.svg?style=flat-square)](https://packagist.org/packages/pxlrbt/laravel-pdfable)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pxlrbt/laravel-pdfable/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/pxlrbt/laravel-pdfable/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pxlrbt/laravel-pdfable/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/pxlrbt/laravel-pdfable/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/pxlrbt/laravel-pdfable.svg?style=flat-square)](https://packagist.org/packages/pxlrbt/laravel-pdfable)
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Keep the logic for your PDFs in one place like you do with Laravel's Mailables.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+composer require pxlrbt/laravel-pdfable
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
+php artisan vendor:publish --tag="laravel-pdfable-config"
 ```
 
 Optionally, you can publish the views using
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-views"
+php artisan vendor:publish --tag="laravel-pdfable-views"
 ```
 
-## Usage
+## Configuration
+
+Currently two drivers are supported:
+
+- Browsershot (default)
+- Wkhtmltopdf (legacy, wkhtmltopdf is deprecated)
+
+### Browsershot Driver
+
+This is the  driver and requires [spatie/browsershot](https://github.com/spatie/browsershot). Please follow the installation instructions for that package.
+
+### Wkhtmltopdf Driver
+
+To use the wkhtmlpdf Driver, make sure `wkhtmltopdf` is installed on your system and globally available.
+
+Then, set the `PDFABLE_DRIVER` option in  your `.env` file to `wkhtmltopdf`.
+
+
+## Generating Pdfables
+```shell
+php artisan make:pdf Invoice
+```
+
+## Writing Pdfables
+
+Once you have generated a pdfable class, open it up so we can explore its contents. Pdfable class configuration is done in several methods.
+
+### Configuring The View
+
+The view is configured via static `$view` property.
 
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+class Invoice extends Pdfable
+{
+    public string $view = 'pdf.task';
+}
 ```
 
-## Testing
+### Configuring The Page/Layout
 
-```bash
-composer test
+You can return a `Page` object to configure the PDF page size, orientation and margins. 
+
+```php
+public function page(): Page
+{
+    return Page::make()->size(PageSize::A4)->margins('narrow');
+}
 ```
 
-## Changelog
+### Passing Additional Data
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Pass additional data via the constructor of your `Pdfable` for later use.
+
+```php
+public function __construct(
+    public Customer $cusomter,
+    public ?Order $order = null
+)
+{}
+```
+### Configuring The Output File
+
+When saving a `Pdfable` to the disk, you can provide a default path via `outputFile()`. 
+
+```php
+public function outputFile(): string
+{
+    return "customers/{$this->customer->id}/{$this->order->id}.pdf";
+}
+```
+
+### Queuing A Pdfable
+
+`Pdfable`s implement `ShouldQueue` and therefore can be pushed to a queue via `Invoice::dispatch()`. You can also use other queue configuration methods directly on your `Pdfable` like `backoff()`, `retryUntil()`, `uniqueId()`, ...
+
+
 
 ## Contributing
 
@@ -85,7 +114,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Dennis Koch](https://github.com/pxlrbt)
 - [All Contributors](../../contributors)
 
 ## License
