@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use pxlrbt\LaravelPdfable\Pdfable;
+
+class {{ class }} extends Pdfable
+{
+    public string $view = '{{ view }}';
+}

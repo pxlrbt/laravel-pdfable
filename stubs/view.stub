@@ -1,0 +1,7 @@
+@extends('laravel-pdfable::base')
+
+@section('title', 'Your Title')
+
+@section('content')
+    {{-- Here goes your content   --}}
+@endsection
