@@ -7,7 +7,7 @@ use pxlrbt\LaravelPdfable\Pdfable;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class WkhtmltopdfAdapter implements Driver
+class WkhtmltopdfDriver implements Driver
 {
     protected Page $page;
 
