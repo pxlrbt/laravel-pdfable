@@ -110,7 +110,6 @@ trait CanAccessPropertiesAndMethods
     /**
      * Create a callable variable from the given method.
      *
-     * @param  \ReflectionMethod  $method
      * @return mixed
      */
     protected function createVariableFromMethod(ReflectionMethod $method)
@@ -123,7 +122,6 @@ trait CanAccessPropertiesAndMethods
     /**
      * Create an invokable, toStringable variable for the given component method.
      *
-     * @param  string  $method
      * @return \Illuminate\View\InvokableComponentVariable
      */
     protected function createInvokableVariable(string $method)
@@ -166,7 +164,6 @@ trait CanAccessPropertiesAndMethods
     /**
      * Get a new attribute bag instance.
      *
-     * @param  array  $attributes
      * @return \Illuminate\View\ComponentAttributeBag
      */
     protected function newAttributeBag(array $attributes = [])

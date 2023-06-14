@@ -12,9 +12,6 @@ enum PageSize
     case A4;
     case A5;
 
-    /**
-     * @return array
-     */
     public function size(): array
     {
         return match ($this) {
