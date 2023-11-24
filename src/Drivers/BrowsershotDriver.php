@@ -16,39 +16,48 @@ class BrowsershotDriver implements Driver
             ->paperSize($page->getWidth(), $page->getHeight())
             ->margins(...$page->getMargins());
 
-        // Configure browsershot
+        // Configure browsershot instance
+        $this->configureBrowsershot($browser);
+
+        return base64_decode(
+            $browser->base64pdf()
+        );
+    }
+
+    protected function configureBrowsershot(Browsershot $browserShot)
+    {
         if (filled(config('pdfable.browsershot.chrome_path'))) {
-            $browser->setChromePath(
+            $browserShot->setChromePath(
                 config('pdfable.browsershot.chrome_path')
             );
         }
 
         if (filled(config('pdfable.browsershot.chromium_arguments'))) {
-            $browser->addChromiumArguments(
+            $browserShot->addChromiumArguments(
                 config('pdfable.browsershot.chromium_arguments')
             );
         }
 
         if (filled(config('pdfable.browsershot.node_binary'))) {
-            $browser->setNodeBinary(
+            $browserShot->setNodeBinary(
                 config('pdfable.browsershot.node_binary')
             );
         }
 
         if (filled(config('pdfable.browsershot.npm_binary'))) {
-            $browser->setNpmBinary(
+            $browserShot->setNpmBinary(
                 config('pdfable.browsershot.npm_binary')
             );
         }
 
         if (filled(config('pdfable.browsershot.include_path'))) {
-            $browser->setIncludePath(
+            $browserShot->setIncludePath(
                 config('pdfable.browsershot.include_path')
             );
         }
 
         if (filled(config('pdfable.browsershot.node_modules_path'))) {
-            $browser->setNodeModulePath(
+            $browserShot->setNodeModulePath(
                 config('pdfable.browsershot.node_modules_path')
             );
         }
@@ -56,12 +65,8 @@ class BrowsershotDriver implements Driver
         if (filled(config('pdfable.browsershot.options'))) {
             collect(config('pdfable.browsershot.options'))
                 ->each(
-                    fn ($item, $key) => $browser->setOption($key, $item)
+                    fn ($item, $key) => $browserShot->setOption($key, $item)
                 );
         }
-
-        return base64_decode(
-            $browser->base64pdf()
-        );
     }
 }
