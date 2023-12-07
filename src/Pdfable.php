@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\View\View;
 use pxlrbt\LaravelPdfable\Layout\Page;
 
-abstract class Pdfable implements Renderable, ShouldQueue, Attachable
+abstract class Pdfable implements Attachable, Renderable, ShouldQueue
 {
     use Concerns\CanAccessPropertiesAndMethods;
     use Concerns\CanBeAttached;
