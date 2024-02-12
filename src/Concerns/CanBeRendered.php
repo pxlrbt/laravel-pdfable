@@ -21,10 +21,15 @@ trait CanBeRendered
 
     public function download(?string $filename = null)
     {
+        $filename = $filename ?? $this->displayFilename();
+
+        // Remove all characters that are not the separator, letters, numbers, or whitespace
+        $sanitizedFilename = preg_replace('![^'.preg_quote('-').'\pL\pN\s]+!u', '', $filename);
+
         return response()->streamDownload(function () {
             echo $this->driver()->getData($this);
         },
-            $filename ?? $this->displayFilename(),
+            $sanitizedFilename,
             ['Content-Type' => 'application/pdf']
         );
     }
