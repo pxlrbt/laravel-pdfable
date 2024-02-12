@@ -24,7 +24,7 @@ class BrowsershotDriver implements Driver
 
         // Configure browsershot instance
         if (isset(self::$configurator)) {
-            $browser = call_user_func(self::$configurator, $browser);
+            $browser = call_user_func(static::$configurator, $browser);
         }
 
         return base64_decode(
