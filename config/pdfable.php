@@ -13,36 +13,6 @@ return [
         'wkhtmltopdf' => WkhtmltopdfAdapter::class,
     ],
 
-    // Configure browsershot driver
-    'browsershot' => [
-        // Customize path to Google Chrome's binary
-        'chrome_path' => null,
-
-        // Set optional arguments for chrome. All of these arguments
-        // will automatically be prefixed with --
-        'chromium_arguments' => [],
-
-        // Define other puppeteer options
-        'options' => [
-            'headless' => 'new',
-        ],
-
-        // Set path to node binary if it is not in $PATH
-        'node_binary' => null,
-
-        // Set path to NPM binary if it is not in $PATH
-        'npm_binary' => null,
-
-        // If you want to use an alternative node_modules source you can
-        // set it here by specifying path to your node_modules directory.
-        'node_modules_path' => null,
-
-        // If you don't want to manually specify binary paths,
-        // but rather modify the include path in general, you can
-        // set it here e.g. 'include_path' => '$PATH:/usr/local/bin'
-        'include_path' => null,
-    ],
-
     'layout' => [
         'defaults' => [
             'page-size' => PageSize::A4,
