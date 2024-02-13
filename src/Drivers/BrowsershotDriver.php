@@ -2,15 +2,16 @@
 
 namespace pxlrbt\LaravelPdfable\Drivers;
 
+use Closure;
 use pxlrbt\LaravelPdfable\Pdfable;
 use Spatie\Browsershot\Browsershot;
 
 class BrowsershotDriver implements Driver
 {
-    protected static $configurator = null;
+    protected static ?Closure $configureUsing = null;
 
-    public static function configureBrowsershot(callable $configurator): void {
-        static::$configurator = $configurator;
+    public static function configureUsing(Closure $callback): void {
+        static::$configureUsing = $callback;
     }
 
     public function getData(Pdfable $pdf): ?string
@@ -21,10 +22,9 @@ class BrowsershotDriver implements Driver
         $browser = Browsershot::html($html)
             ->paperSize($page->getWidth(), $page->getHeight())
             ->margins(...$page->getMargins());
-
-        // Configure browsershot instance
-        if (isset(self::$configurator)) {
-            $browser = call_user_func(static::$configurator, $browser);
+        
+        if (self::$configureUsing !== null) {
+            $browser = call_user_func(static::$configureUsing, $browser);
         }
 
         return base64_decode(
