@@ -42,8 +42,8 @@ You can configure the Browsershot driver via `BrowsershotDriver::configureUsing(
 
 ```php
 BrowsershotDriver::configureUsing(
-    fn (Browsershot $browser) => $browser->setCustomTempPath(storage_path('tmp'));
-});
+    fn (Browsershot $browser) => $browser->setCustomTempPath(storage_path('tmp'))
+);
 ```
 
 ### Wkhtmltopdf Driver
