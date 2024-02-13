@@ -36,7 +36,15 @@ Currently two drivers are supported:
 
 ### Browsershot Driver
 
-This is the  driver and requires [spatie/browsershot](https://github.com/spatie/browsershot). Please follow the installation instructions for that package.
+This is the default driver and requires [spatie/browsershot](https://github.com/spatie/browsershot). Please follow the installation instructions for that package.
+
+You can configure the Browsershot driver via `BrowsershotDriver::configureUsing()` in your `AppServiceProvider`:
+
+```php
+BrowsershotDriver::configureUsing(
+    fn (Browsershot $browser) => $browser->setCustomTempPath(storage_path('tmp'))
+);
+```
 
 ### Wkhtmltopdf Driver
 
