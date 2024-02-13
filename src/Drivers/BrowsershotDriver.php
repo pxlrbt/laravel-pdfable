@@ -10,7 +10,8 @@ class BrowsershotDriver implements Driver
 {
     protected static ?Closure $configureUsing = null;
 
-    public static function configureUsing(Closure $callback): void {
+    public static function configureUsing(Closure $callback): void
+    {
         static::$configureUsing = $callback;
     }
 
@@ -22,7 +23,7 @@ class BrowsershotDriver implements Driver
         $browser = Browsershot::html($html)
             ->paperSize($page->getWidth(), $page->getHeight())
             ->margins(...$page->getMargins());
-        
+
         if (self::$configureUsing !== null) {
             $browser = call_user_func(static::$configureUsing, $browser);
         }
