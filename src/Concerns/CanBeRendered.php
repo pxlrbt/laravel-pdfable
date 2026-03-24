@@ -2,6 +2,8 @@
 
 namespace pxlrbt\LaravelPdfable\Concerns;
 
+use Illuminate\Contracts\View\View;
+
 trait CanBeRendered
 {
     public function displayFilename(): string
@@ -37,7 +39,7 @@ trait CanBeRendered
     /**
      * Entrypoint for responses
      */
-    public function render()
+    public function render(): string|View
     {
         $this->preview = true;
 

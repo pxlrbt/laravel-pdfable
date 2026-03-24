@@ -6,9 +6,12 @@ parameters:
     paths:
         - src
         - config
-        - database
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        - message: '#Call to static method html\(\) on an unknown class Spatie\\Browsershot\\Browsershot#'
+          path: src/Drivers/BrowsershotDriver.php
+        - identifier: larastan.noEnvCallsOutsideOfConfig
+          path: config/pdfable.php
 

@@ -1,7 +1,7 @@
 <?php
 
 use pxlrbt\LaravelPdfable\Drivers\BrowsershotDriver;
-use pxlrbt\LaravelPdfable\Drivers\WkhtmltopdfAdapter;
+use pxlrbt\LaravelPdfable\Drivers\WkhtmltopdfDriver;
 use pxlrbt\LaravelPdfable\Layout\PageOrientation;
 use pxlrbt\LaravelPdfable\Layout\PageSize;
 
@@ -10,7 +10,7 @@ return [
 
     'drivers' => [
         'browsershot' => BrowsershotDriver::class,
-        'wkhtmltopdf' => WkhtmltopdfAdapter::class,
+        'wkhtmltopdf' => WkhtmltopdfDriver::class,
     ],
 
     'layout' => [

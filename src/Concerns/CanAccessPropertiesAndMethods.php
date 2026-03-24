@@ -17,7 +17,7 @@ trait CanAccessPropertiesAndMethods
     /**
      * The component attributes.
      *
-     * @var \Illuminate\View\ComponentAttributeBag
+     * @var ?ComponentAttributeBag
      */
     public $attributes;
 
@@ -44,7 +44,7 @@ trait CanAccessPropertiesAndMethods
 
     public function data()
     {
-        $this->attributes = $this->attributes ?: $this->newAttributeBag();
+        $this->attributes = $this->attributes ?? $this->newAttributeBag();
 
         return array_merge($this->extractPublicProperties(), $this->extractPublicMethods());
     }
@@ -122,7 +122,7 @@ trait CanAccessPropertiesAndMethods
     /**
      * Create an invokable, toStringable variable for the given component method.
      *
-     * @return \Illuminate\View\InvokableComponentVariable
+     * @return InvokableComponentVariable
      */
     protected function createInvokableVariable(string $method)
     {
@@ -164,7 +164,7 @@ trait CanAccessPropertiesAndMethods
     /**
      * Get a new attribute bag instance.
      *
-     * @return \Illuminate\View\ComponentAttributeBag
+     * @return ComponentAttributeBag
      */
     protected function newAttributeBag(array $attributes = [])
     {
