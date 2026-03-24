@@ -10,9 +10,9 @@ class Page
 
     protected PageOrientation $orientation;
 
-    public static function make()
+    public static function make(): self
     {
-        return (new static)
+        return (new self)
             ->size(config('pdfable.layout.defaults.page-size'))
             ->orientation(config('pdfable.layout.defaults.orientation'))
             ->margins(config('pdfable.layout.defaults.margins'));

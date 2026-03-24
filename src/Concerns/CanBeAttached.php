@@ -13,7 +13,7 @@ trait CanBeAttached
     {
         return Attachment::fromData(
             fn () => $this->driver()->getData($this),
-            $this->displayFilename() ?? 'attachment.pdf'
+            $this->displayFilename()
         );
     }
 }

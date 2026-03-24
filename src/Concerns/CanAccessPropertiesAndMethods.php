@@ -17,7 +17,7 @@ trait CanAccessPropertiesAndMethods
     /**
      * The component attributes.
      *
-     * @var ComponentAttributeBag
+     * @var ?ComponentAttributeBag
      */
     public $attributes;
 
@@ -44,7 +44,7 @@ trait CanAccessPropertiesAndMethods
 
     public function data()
     {
-        $this->attributes = $this->attributes ?: $this->newAttributeBag();
+        $this->attributes = $this->attributes ?? $this->newAttributeBag();
 
         return array_merge($this->extractPublicProperties(), $this->extractPublicMethods());
     }
